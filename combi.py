@@ -9,40 +9,53 @@
 import random
 
 while True:
-    vertices = input("How many vertices? n=")
-    edges = input("How many edges? m=")
-    try:
-        vertices = int(vertices)
-        edges = int(edges)
-        if vertices <= 0 or edges <= 0:
-            print("I'm sure those numbers will make a very nice-looking graph.")
-            continue
-        break
-    except ValueError:
-        print("Please input two integers instead")
+	vertices = input("How many vertices? n=")
+	edges = input("How many edges? m=")
+	try:
+		vertices = int(vertices)
+		edges = int(edges)
+		if vertices <= 0 or edges <= 0:
+			print("I'm sure those numbers will make a very nice-looking graph.")
+			continue
+		break
+	except ValueError:
+		print("Please input two integers instead")
 
 print ("n = {}, m = {}".format(vertices, edges))
 
-edgeobjects = []
+#edgeobjects = []
 
-for newedge in range(0, edges):
-    v1 = random.randint(0, vertices)
-    v2 = random.randint(0, vertices-1)
-    if v1 == v2:
-        v2 += 1
-    edgeobjects.append({v1, v2})
-    print("Generated edge from {} to {}".format(v1, v2))
+#for newedge in range(0, edges):
+	#v1 = random.randint(0, vertices)
+	#v2 = random.randint(0, vertices-1)
+	#if v1 == v2:
+		#v2 += 1
+	#edgeobjects.append({v1, v2})
+	#print("Generated edge from {} to {}".format(v1, v2))
 
 # Now make sure edges are unique
 
 
 #Generate this
-g = { "a" : ["c", "b"],
-          "b" : ["c", "e"],
-          "c" : ["a", "b", "d", "e"],
-          "d" : ["c"],
-          "e" : ["c", "b"],
-        }
+#g = { "a" : ["c", "b"],
+		#"b" : ["c", "e"],
+		#"c" : ["a", "b", "d", "e"],
+		#"d" : ["c"],
+		#"e" : ["c", "b"],
+	#}
+
+
+def generate_graph(vertices, edges):
+	g = {}
+	for v in range(0, vertices):
+		g[v] = []
+
+		for sub in range(0, vertices):
+			if v == sub or (sub < v and not (v in g[sub])):
+				continue
+			if (sub < v and v in g[sub]) or random.randint(0,1) == 1:
+				g[v].append(sub)
+	return g
 
 
 def hamilton ( circuit,  graph, cur_node , visited ):
