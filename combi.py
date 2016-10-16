@@ -7,6 +7,7 @@
 # that does have a Hamilton path.
 
 import random
+import copy
 
 while True:
     vertices = input("How many vertices? n=")
@@ -37,7 +38,7 @@ for newedge in range(0, edges):
 
 
 #Generate this
-g = { "a" : ["c", "b"],
+g = { "a" : ["c" ],
           "b" : ["c", "e"],
           "c" : ["a", "b", "d", "e"],
           "d" : ["c"],
@@ -61,6 +62,9 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 
 	adjecent =  graph.get(cur_node)
 
+	if not adjecent:
+		return False
+
 	for v in adjecent:
 		if v not in visited:
 			found =  hamilton( circuit, graph, v , visited )
@@ -81,7 +85,38 @@ def hamilton_path( graph ):
 def hamilton_circuit( graph, start ):
 	return hamilton ( True, graph, start, [])
 
-if hamilton_path(g):
+def hamilton_subgraph( graph ):
+	"""
+	Look for a subgraph that contains a many nodes as possible
+	It sorts the vertices by degree and removes the lowest one
+	"""
+
+	if not hamilton_path(graph):
+		#Sort vertices by degree
+		vertices = sorted(graph, key=lambda k: len(graph[k]), reverse=False)
+
+		for remove in vertices:
+			g = graph.copy() #we need a backup
+			g.pop(remove)
+		
+			#Remove dead edges
+			for a in g :
+				if remove in g[a]:
+					g[a].remove(remove)
+
+			found = hamilton_subgraph(g)
+			if found:
+				return True
+			
+			g = graph.copy() 
+			#g.update not possible because vertices onlt contains the key
+			# and becaus edges are removed
+	else:
+		return True
+	return False
+
+
+if hamilton_subgraph(g):
 	print(path)
 else:
 	print(":(")
