@@ -53,7 +53,6 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 		if circuit:
 			if not cur_node == visted[0]:
 				return False
-		print("jeej")
 		return True
 
 	adjecent =  graph.get(cur_node)
@@ -67,6 +66,16 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 	visited.remove(cur_node)
 	return False
 
+def hamilton_path( graph ):
+	vertices = graph.keys()
+	for start in vertices:
+		found =  hamilton( False, graph, start, [])
+		if found:
+			return True
+	return False
 
-hamilton ( False , g , "a", [])
+def hamilton_circuit( graph, start ):
+	return hamilton ( True, graph, start, [])
+
+print(hamilton_path(g))
 
