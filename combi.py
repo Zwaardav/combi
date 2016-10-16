@@ -66,7 +66,6 @@ def generate_graph(vertices, edges):
 			if v in g[duplicatable]:
 				g[v].append(duplicatable)
 		edgeoffset += vertices-(v+1)
-	print(g)
 	return g
 
 path = []
@@ -142,7 +141,23 @@ def hamilton_subgraph( graph ):
 
 g = generate_graph(vertices, edges)
 
+print("Generated the following graph:")
+print(g)
+
+foundeither = False
+
 if hamilton_path(g):
+	print("Found the following Hamilton path:")
 	print(path)
-else:
-	print(":(")
+	foundeither = True
+#if hamilton_circuit(g):
+	#print("Found the following Hamilton circuit:")
+	#print(path)
+	#foundeither = True
+
+if not foundeither:
+	if hamilton_subgraph(g):
+		print("Found the following Hamilton path or circuit in a subgraph:")
+		print(path)
+	else:
+		print("Nope, can't find anything")
