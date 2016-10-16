@@ -47,25 +47,25 @@ g = { "a" : ["c", "b"],
 
 def hamilton ( circuit,  graph, cur_node , visited ):
 
-    visited.append(cur_node)
+	visited.append(cur_node)
 
-    if sorted(visited) == sorted(graph.keys()):
+	if sorted(visited) == sorted(graph.keys()):
 		if circuit:
 			if not cur_node == visted[0]:
 				return False
-        print("jeej")
-        return True
+		print("jeej")
+		return True
 
-    adjecent =  graph.get(cur_node)
+	adjecent =  graph.get(cur_node)
 
-    for v in adjecent:
-        if v not in visited:
-            found =  hamilton( circuit, graph, v , visited )
-            if found:
-                return True
+	for v in adjecent:
+		if v not in visited:
+			found =  hamilton( circuit, graph, v , visited )
+			if found:
+				return True
 
-    visited.remove(cur_node)
-    return False
+	visited.remove(cur_node)
+	return False
 
 
 hamilton ( False , g , "a", [])
