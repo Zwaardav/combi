@@ -20,6 +20,7 @@ while True:
 		maxedges = int((vertices**2-vertices)/2)
 		if edges > maxedges:
 			print("I have to make a simple graph, you know.")
+			continue
 		break
 	except ValueError:
 		print("Please input two integers instead.")
@@ -52,18 +53,24 @@ def generate_graph(vertices, edges):
 	g = {}
 	e = [False]*maxedges
 	
-	for en in range(0, edges):
-		chosen = random.randint(0,maxedges-en)
-		i = 0
-		while True:
-			if e[i]:
-				# Already an edge here
-				chosen += 1
-			if i < chosen:
-				i += 1
-			else:
-				e[i] = True
-				break
+	try:
+		for en in range(0, edges):
+			chosen = random.randint(0,maxedges-en-1)
+			print("For edge #{} in range 0,{}, calculated random number {} between 0 and {}.".format(en, edges, chosen, maxedges-en-1))
+			i = 0
+			while True:
+				if e[i]:
+					# Already an edge here
+					print("Already an edge at {}, so changing chosen loc {} to {}".format(i, chosen, chosen+1))
+					chosen += 1
+				if i < chosen:
+					i += 1
+				else:
+					e[i] = True
+					print("Ended up putting it at {}".format(i))
+					break
+	except IndexError:
+		print("{} is out of bounds! Max number of edges: {}".format(i, maxedges))
 
 	edgeoffset = 0
 
