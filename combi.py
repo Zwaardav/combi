@@ -150,10 +150,14 @@ if hamilton_path(g):
 	print("Found the following Hamilton path:")
 	print(path)
 	foundeither = True
+else:
+	print("Didn't find a Hamilton path.")
 #if hamilton_circuit(g):
 	#print("Found the following Hamilton circuit:")
 	#print(path)
 	#foundeither = True
+#else:
+	#print("Didn't find a Hamilton circuit.")
 
 if not foundeither:
 	if hamilton_subgraph(g):
