@@ -1,3 +1,4 @@
+#!/bin/python
 # 7.
 # Given two positive integers n and m, construct a random simple graph with n
 # vertices and m edges and determine whether the graph has a Hamilton path or
@@ -33,3 +34,39 @@ for newedge in range(0, edges):
     print("Generated edge from {} to {}".format(v1, v2))
 
 # Now make sure edges are unique
+
+
+#Generate this
+g = { "a" : ["c", "b"],
+          "b" : ["c", "e"],
+          "c" : ["a", "b", "d", "e"],
+          "d" : ["c"],
+          "e" : ["c", "b"],
+        }
+
+
+def hamilton ( circuit,  graph, cur_node , visited ):
+
+    visited.append(cur_node)
+
+    if sorted(visited) == sorted(graph.keys()):
+		if circuit:
+			if not cur_node == visted[0]:
+				return False
+        print("jeej")
+        return True
+
+    adjecent =  graph.get(cur_node)
+
+    for v in adjecent:
+        if v not in visited:
+            found =  hamilton( circuit, graph, v , visited )
+            if found:
+                return True
+
+    visited.remove(cur_node)
+    return False
+
+
+hamilton ( False , g , "a", [])
+
