@@ -17,9 +17,12 @@ while True:
 		if vertices <= 0 or edges <= 0:
 			print("I'm sure those numbers will make a very nice-looking graph.")
 			continue
+		maxedges = int((vertices**2-vertices)/2)
+		if edges > maxedges:
+			print("I have to make a simple graph, you know.")
 		break
 	except ValueError:
-		print("Please input two integers instead")
+		print("Please input two integers instead.")
 
 print ("n = {}, m = {}".format(vertices, edges))
 
@@ -47,14 +50,38 @@ print ("n = {}, m = {}".format(vertices, edges))
 
 def generate_graph(vertices, edges):
 	g = {}
+	e = [False]*maxedges
+	
+	for en in range(0, edges):
+		chosen = random.randint(0,maxedges-en)
+		i = 0
+		while True:
+			if e[i]:
+				# Already an edge here
+				chosen += 1
+			if i < chosen:
+				i += 1
+			else:
+				e[i] = True
+				break
+
+	edgeoffset = 0
+
 	for v in range(0, vertices):
 		g[v] = []
 
-		for sub in range(0, vertices):
-			if v == sub or (sub < v and not (v in g[sub])):
-				continue
-			if (sub < v and v in g[sub]) or random.randint(0,1) == 1:
-				g[v].append(sub)
+		# Apply the edges in the final graph
+		connectingedge = v+1
+		for applyedge in range(edgeoffset, edgeoffset+(vertices-(v+1))):
+			if e[applyedge]:
+				g[v].append(connectingedge)
+			connectingedge += 1
+
+		for duplicatable in range(0, v):
+			if v in g[duplicatable]:
+				g[v].append(duplicatable)
+		edgeoffset += vertices-(v+1)
+	print(g)
 	return g
 
 path = []
@@ -93,6 +120,8 @@ def hamilton_path( graph ):
 
 def hamilton_circuit( graph, start ):
 	return hamilton ( True, graph, start, [])
+
+g = generate_graph(vertices, edges)
 
 if hamilton_path(g):
 	print(path)
