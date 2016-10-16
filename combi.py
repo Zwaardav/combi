@@ -7,7 +7,6 @@
 # that does have a Hamilton path.
 
 import random
-import copy
 
 while True:
 	vertices = input("How many vertices? n=")
@@ -27,27 +26,6 @@ while True:
 		print("Please input two integers instead.")
 
 print ("n = {}, m = {}".format(vertices, edges))
-
-#edgeobjects = []
-
-#for newedge in range(0, edges):
-	#v1 = random.randint(0, vertices)
-	#v2 = random.randint(0, vertices-1)
-	#if v1 == v2:
-		#v2 += 1
-	#edgeobjects.append({v1, v2})
-	#print("Generated edge from {} to {}".format(v1, v2))
-
-# Now make sure edges are unique
-
-
-#Generate this
-g = { "a" : ["c" ],
-          "b" : ["c", "e"],
-          "c" : ["a", "b", "d", "e"],
-          "d" : ["c"],
-          "e" : ["c", "b"],
-        }
 
 def generate_graph(vertices, edges):
 	g = {}
