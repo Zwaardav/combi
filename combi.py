@@ -44,6 +44,8 @@ g = { "a" : ["c", "b"],
           "e" : ["c", "b"],
         }
 
+path = []
+
 
 def hamilton ( circuit,  graph, cur_node , visited ):
 
@@ -53,6 +55,8 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 		if circuit:
 			if not cur_node == visted[0]:
 				return False
+		global path
+		path = visited
 		return True
 
 	adjecent =  graph.get(cur_node)
@@ -77,5 +81,7 @@ def hamilton_path( graph ):
 def hamilton_circuit( graph, start ):
 	return hamilton ( True, graph, start, [])
 
-print(hamilton_path(g))
-
+if hamilton_path(g):
+	print(path)
+else:
+	print(":(")
