@@ -57,6 +57,8 @@ def generate_graph(vertices, edges):
 				g[v].append(sub)
 	return g
 
+path = []
+
 
 def hamilton ( circuit,  graph, cur_node , visited ):
 
@@ -66,7 +68,8 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 		if circuit:
 			if not cur_node == visted[0]:
 				return False
-		print("jeej")
+		global path
+		path = visited
 		return True
 
 	adjecent =  graph.get(cur_node)
@@ -80,6 +83,18 @@ def hamilton ( circuit,  graph, cur_node , visited ):
 	visited.remove(cur_node)
 	return False
 
+def hamilton_path( graph ):
+	vertices = graph.keys()
+	for start in vertices:
+		found =  hamilton( False, graph, start, [])
+		if found:
+			return True
+	return False
 
-hamilton ( False , g , "a", [])
+def hamilton_circuit( graph, start ):
+	return hamilton ( True, graph, start, [])
 
+if hamilton_path(g):
+	print(path)
+else:
+	print(":(")
