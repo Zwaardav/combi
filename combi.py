@@ -7,6 +7,8 @@
 # that does have a Hamilton path.
 
 import random
+import networkx as nx
+import matplotlib.pyplot as plt
 
 while True:
 	vertices = input("How many vertices? n=")
@@ -70,21 +72,24 @@ def generate_graph(vertices, edges):
 
 path = []
 
-
 def hamilton ( circuit,  graph, cur_node , visited ):
 
 	visited.append(cur_node)
 
-	if sorted(visited) == sorted(graph.keys()):
-		if circuit:
-			if not cur_node == visted[0]:
-				return False
-		global path
-		path = visited
-		return True
-
 	adjecent =  graph.get(cur_node)
 
+
+	if sorted(visited) == sorted(graph.keys()):
+		global path
+		if circuit:
+			for v in adjecent:	
+				if v ==  visited[0]:
+					path = visited
+					return True	
+			return False
+		path = visited
+		return True
+	
 	if not adjecent:
 		return False
 
@@ -105,7 +110,7 @@ def hamilton_path( graph ):
 			return True
 	return False
 
-def hamilton_circuit( graph, start ):
+def hamilton_circuit( graph ):
 	vertices = graph.keys()
 	for start in vertices:
 		found =  hamilton( True, graph, start, [])
@@ -143,6 +148,18 @@ def hamilton_subgraph( graph ):
 		return True
 	return False
 
+def show_graph( Graph ):
+	edges=[]
+	for k,v in g.items():
+		for x in v:
+			edges.append((k,x))
+	
+	G=nx.Graph()
+	G.add_edges_from(edges)
+
+	nx.draw_spring(G)
+	plt.show()
+
 
 g = generate_graph(vertices, edges)
 
@@ -157,12 +174,12 @@ if hamilton_path(g):
 	foundeither = True
 else:
 	print("Didn't find a Hamilton path.")
-#if hamilton_circuit(g):
-	#print("Found the following Hamilton circuit:")
-	#print(path)
-	#foundeither = True
-#else:
-	#print("Didn't find a Hamilton circuit.")
+if hamilton_circuit(g):
+	print("Found the following Hamilton circuit:")
+	print(path)
+	foundeither = True
+else:
+	print("Didn't find a Hamilton circuit.")
 
 if not foundeither:
 	if hamilton_subgraph(g):
@@ -170,3 +187,5 @@ if not foundeither:
 		print(path)
 	else:
 		print("Nope, can't find anything")
+
+show_graph(g)
