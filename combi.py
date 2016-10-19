@@ -106,7 +106,12 @@ def hamilton_path( graph ):
 	return False
 
 def hamilton_circuit( graph, start ):
-	return hamilton ( True, graph, start, [])
+	vertices = graph.keys()
+	for start in vertices:
+		found =  hamilton( True, graph, start, [])
+		if found:
+			return True
+	return False
 
 def hamilton_subgraph( graph ):
 	"""
